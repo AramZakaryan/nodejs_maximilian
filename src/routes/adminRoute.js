@@ -1,19 +1,28 @@
 const express = require('express');
-const path = require('path');
-const srcDir = require('../utils/srcDir');
+const products = require('../db/db')
 
 const adminRouter = express.Router();
 
 
-adminRouter.get('/', (req, res) => {
-    console.log(srcDir);
+adminRouter.get('/add-product', (req, res) => {
 
-    res.sendFile(path.join(srcDir, 'views', 'add_product.html'));
+    res.render('add-product',
+        {
+            path: "/admin/add-product",
+            pageTitle: 'Add Product'
+        });
 })
 
-adminRouter.post('/products', (req, res) => {
-    console.log(req.body)
-    res.redirect("/admin");
+adminRouter.post('/add-product', (req, res) => {
+
+    products.push(req.body)
+
+    res.render('add-product',
+        {
+            path: "/admin/add-product",
+            pageTitle: 'Add Product'
+        });
 })
+
 
 module.exports = adminRouter;
