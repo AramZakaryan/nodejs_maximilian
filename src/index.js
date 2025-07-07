@@ -2,10 +2,12 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const adminRouter = require("./routes/adminRoute");
-const shopRouter = require("./routes/shopRoute");
+const adminRouter = require("./routes/admin.route");
+const shopRouter = require("./routes/shop.route");
 const path = require("node:path");
 const srcDir = require("./utils/srcDir.js");
+const errorsController = require('./controllers/errors.controller')
+
 
 const app = express();
 
@@ -22,11 +24,7 @@ app.use('/shop', shopRouter);
 
 app.use('/admin', adminRouter);
 
-app.use((req, res) => {
-    res.render(path.join(srcDir, 'views', '404'), {
-        pageTitle: "404 Page Not Found"
-    });
-});
+app.use(errorsController.getError404);
 
 app.listen(7777);
 
